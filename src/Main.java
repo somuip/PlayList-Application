@@ -32,8 +32,11 @@ public class Main {
             return;
         }
 
+        boolean isNext; // check the pattern like next to next // next to previous etc.....
+
         System.out.println("Currently playing: ");
         System.out.println(itr.next());
+        isNext = true;
 
         Scanner sc = new Scanner(System.in);
 
@@ -43,30 +46,92 @@ public class Main {
 
             switch (choice){
                 case 1:
+
+                    // in case of previous to next
+                    if(!isNext){
+                        itr.next();
+                        // we have to change for future
+                        isNext = true;
+                    }
+
+                    // in case of next to next
                     if(itr.hasNext()){
                         System.out.println("Now playing");
                         System.out.println(itr.next());
+                        isNext = true;
                     }
                     else System.out.println("You have reached the end of list");
                     break;
+
+
                 case 2:
+
+                    // in case of next to previous
+                    if(isNext){
+                        itr.previous();
+                        // we have to change for future
+                        isNext = false;
+                    }
+
+                    // in case of previous to previous
                     if(itr.hasPrevious()){
+                        itr.previous();
                         System.out.println("Now playing");
                         System.out.println(itr.previous());
+                        isNext = false;
                     }
                     else System.out.println("You are at the starting song of list");
                     break;
+
+
                 case 3:
+
+                    // Play current song again
+                    if(isNext==true){
+                        if(itr.hasPrevious()) {
+                            System.out.println("Playing current song again");
+                            System.out.println(itr.previous());
+                            isNext = false;
+                        }
+                    }
+                    else{
+                        if(itr.hasNext()){
+                            System.out.println(itr.next());
+                            isNext = true;
+                        }
+                    }
                     break;
+
+
                 case 4:
+
+                    // deleting current song
+                    if(isNext){
+                        System.out.println("Deleting the current playing song");
+                        itr.remove();
+                    }
+                    else{
+                        System.out.println("You have not selected/playing any song");
+                    }
                     break;
+
+
                 case 5:
+
+                    // printing all the songs
                     printAllSongs(playList);
                     break;
+
+
                 case 6:
+
+                    // printing the menu
                     printMenu();
                     break;
+
+
                 case 7:
+
                     // exit
                     return;
             }
